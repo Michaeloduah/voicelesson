@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class CourseController extends Controller
 {
@@ -30,6 +31,27 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         //
+        $course = $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'audio' => 'required|mimes:mp3,mp4,ogg,wav,aac,flac',
+            'content' => 'nullable',
+        ]);
+
+        $audio_dir = $request->file('audio')->store('audio', 'public');
+
+        DB::beginTransaction();
+
+        $course = Course::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'audio' => $audio_dir,
+            'content' => $request->input('content'),
+        ]);
+
+        DB::commit();
+        return redirect()->back();
+        DB::rollBack();
     }
 
     /**
