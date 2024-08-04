@@ -9,7 +9,9 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $user = auth()->user();
+    return view('dashboard', compact('user'));
+
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -23,6 +25,7 @@ Route::middleware('auth')->group(function () {
             Route::name('course.')->prefix('course')->group(function () {
                 Route::post('store', [CourseController::class, 'store'])->name('store');
             });
+
         });
 
         
