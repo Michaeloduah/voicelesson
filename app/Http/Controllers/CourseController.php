@@ -15,6 +15,9 @@ class CourseController extends Controller
     public function index()
     {
         //
+        $user = auth()->user();
+        $courses = Course::all();
+        return view('dashboard.admin.course.index', compact('user', 'courses'));
     }
 
     /**
@@ -23,6 +26,8 @@ class CourseController extends Controller
     public function create()
     {
         //
+        $user = auth()->user();
+        return view('dashboard.admin.course.create', compact('user'));
     }
 
     /**
@@ -34,8 +39,8 @@ class CourseController extends Controller
         $course = $request->validate([
             'name' => 'required',
             'description' => 'required',
-            'audio' => 'required|mimes:mp3,mp4,ogg,wav,aac,flac',
-            'content' => 'nullable',
+            // 'audio' => 'required|mimes:mp3,mp4,ogg,wav,aac,flac',
+            // 'content' => 'nullable',
         ]);
 
         $audio_dir = $request->file('audio')->store('audio', 'public');
@@ -45,44 +50,69 @@ class CourseController extends Controller
         $course = Course::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
-            'audio' => $audio_dir,
-            'content' => $request->input('content'),
+            // 'audio' => $audio_dir,
+            // 'content' => $request->input('content'),
         ]);
 
         DB::commit();
-        return redirect()->back();
+        return redirect()->intended(route('dashboard.admin.course.index', absolute: false));
         DB::rollBack();
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Course $course)
+    public function show(Course $course, $id)
     {
         //
+        $user = auth()->user();
+        $course = Course::findOrFail($id);
+        return view('dashboard.admin.course.show', compact('user', 'course'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Course $course)
+    public function edit(Course $course, $id)
     {
         //
+        $user = auth()->user();
+        $course = Course::findOrFail($id);
+        return view('dashboard.admin.course.edit', compact('user', 'course'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Course $course)
+    public function update(Request $request, $id)
     {
         //
+        $course = Course::findOrFail($id);
+        $valid = $request->validate([
+            'name' => 'nullable',
+            'description' => 'nullable',
+            // 'audio' => 'nullable|mimes:mp3,mp4,ogg,wav,aac,flac',
+            // 'content' => 'nullable',
+        ]);
+
+        $course->name = $request->name ?? $course->name;
+        $course->description = $request->description ?? $course->description;
+        // $course->audio = $request->audio ?? $course->audio;
+        // $course->content = $request->content ?? $course->content;
+
+        $course->save();
+
+        return redirect()->intended(route('dashboard.admin.course.index'))->withInput($request->input())->with('message', 'Sermon Updated');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Course $course)
+    public function destroy(Course $course, $id)
     {
         //
+        $course = Course::findOrFail($id);
+        $course->delete();
+        return redirect()->back()->with('message', 'Course deleted Successfully');
     }
 }

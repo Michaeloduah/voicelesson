@@ -337,5 +337,5 @@
 })();
 
 function confirmDelete() {
-  confirm("Are you sure you want to delete this food note this change cannot be undone!!!");
+  confirm("Are you sure you want to delete this item note this change cannot be undone!!!");
 }

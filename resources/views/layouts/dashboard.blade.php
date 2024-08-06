@@ -54,7 +54,7 @@
             <a href="{{ route('dashboard') }}" class="logo d-flex align-items-center">
                 <img src="{{ asset('assets/images/MH-dark.png') }}" alt="">
                 {{-- <img src="{{ asset('storage/' . $user->image) }}" alt="Profile" class="rounded-circle"> --}}
-                <span class="d-none d-md-block fs-6 ps-2">{{ $user->name }}</span>
+                <span class="d-none d-lg-block fs-5 fw-bolder">Masculinity Hub</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
@@ -62,17 +62,10 @@
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
 
-                <li class="nav-item d-block d-lg-none">
-                    <a class="nav-link nav-icon search-bar-toggle " href="#">
-                        <i class="bi bi-search"></i>
-                    </a>
-                </li><!-- End Search Icon-->
-
                 <li class="nav-item dropdown pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0">
-
-                        <span class="d-none d-lg-block fs-5 fw-bolder">Masculinity Hub</span>
+                        <span class="d-none d-md-block fs-6 ps-2">Welcome {{ $user->name }}</span>
                     </a><!-- End Profile Iamge Icon -->
                 </li><!-- End Profile Nav -->
 
@@ -96,21 +89,42 @@
             </li><!-- End Dashboard Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#Course-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#course-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-journal-richtext"></i><span>Courses</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="Course-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="course-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 
                     <li class="nav-heading">Courses</li>
 
                     <li>
-                        <a href="#">
+                        <a href="{{ route('dashboard.admin.course.index') }}">
                             <i class="bi bi-circle"></i><span>All Courses</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="{{ route('dashboard.admin.course.create') }}">
                             <i class="bi bi-circle"></i><span>Add New Course</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End Course Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#lesson-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-journal-richtext"></i><span>Lessons</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="lesson-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+                    <li class="nav-heading">Lessons</li>
+
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>All Lessons</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>Add Lesson</span>
                         </a>
                     </li>
                 </ul>

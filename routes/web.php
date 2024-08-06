@@ -23,7 +23,13 @@ Route::middleware('auth')->group(function () {
         Route::name('admin.')->prefix('admin')->group(function () {
 
             Route::name('course.')->prefix('course')->group(function () {
+                Route::get('', [CourseController::class, 'index'])->name('index');
+                Route::get('create', [CourseController::class, 'create'])->name('create');
                 Route::post('store', [CourseController::class, 'store'])->name('store');
+                Route::get('edit/{id}', [CourseController::class, 'edit'])->name('edit');
+                Route::post('edit/{id}', [CourseController::class, 'update'])->name('update');
+                Route::get('details/{id}', [CourseController::class, 'show'])->name('show');
+                Route::get('{id}', [CourseController::class, 'destroy'])->name('destroy');
             });
 
         });
