@@ -109,26 +109,6 @@
                 </ul>
             </li><!-- End Course Nav -->
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#lesson-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-journal-richtext"></i><span>Lessons</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="lesson-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-
-                    <li class="nav-heading">Lessons</li>
-
-                    <li>
-                        <a href="#">
-                            <i class="bi bi-circle"></i><span>All Lessons</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="bi bi-circle"></i><span>Add Lesson</span>
-                        </a>
-                    </li>
-                </ul>
-            </li><!-- End Course Nav -->
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#Assignment-nav" data-bs-toggle="collapse" href="#">

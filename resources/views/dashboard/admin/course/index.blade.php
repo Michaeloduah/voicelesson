@@ -4,7 +4,7 @@
     <div class="container">
         <h3 class=""><strong>All courses</strong></h3>
         <div class="m-4 ">
-            <a href="{{ route('dashboard.admin.course.create') }}"><button class="btn btn-outline-info btn-sm"><i
+            <a href=""><button class="btn btn-outline-info btn-sm"><i
                         class="bi bi-plus"></i> Add New Course</button></a>
         </div>
 
@@ -25,9 +25,9 @@
                         <td> {{ $course->name }} </td>
                         <td> {{ $course->description }} </td>
                         <td>
-                            <a href="{{ route('dashboard.admin.course.show', $course->slug) }}"><button
+                            <a href="{{ route('dashboard.admin.course.lesson.show', $course->slug) }}"><button
                                     class="btn btn-sm btn-outline-success m-1"><i
-                                        class="bi bi-pencil-square"></i>Lessons</button></a>
+                                        class="bi bi-book"></i> Lessons</button></a>
                             <a href="{{ route('dashboard.admin.course.edit', $course->id) }}"><button
                                     class="btn btn-sm btn-outline-info m-1"><i
                                         class="bi bi-pencil-square"></i>Edit</button></a>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Lesson;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -65,7 +66,8 @@ class CourseController extends Controller
         //
         $user = auth()->user();
         $course = Course::where('slug', $slug)->firstOrFail();
-        return view('dashboard.admin.course.show', compact('user', 'course'));
+        $lessons = Lesson::all()->where('course_id', $course->id);
+        return view('dashboard.admin.course.show', compact('user', 'course', 'lessons'));
     }
 
     /**
@@ -109,5 +111,14 @@ class CourseController extends Controller
         $course = Course::findOrFail($id);
         $course->delete();
         return redirect()->back()->with('message', 'Course deleted Successfully');
+    }
+
+    // Lessons Controllers
+    public function addLesson(Course $course, $slug)
+    {
+        //
+        $user = auth()->user();
+        $course = Course::where('slug', $slug)->firstOrFail();
+        return view('dashboard.admin.lesson.create', compact('user', 'course'));
     }
 }

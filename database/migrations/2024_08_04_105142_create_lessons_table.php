@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
             $table->foreignId('course_id');
+            $table->string('title');
             $table->string('content');
+            $table->string('slug');
             $table->string('audio')->nullable();
             $table->string('video')->nullable();
             $table->timestamps();

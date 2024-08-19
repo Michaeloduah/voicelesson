@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
@@ -28,12 +29,15 @@ Route::middleware('auth')->group(function () {
                 Route::post('store', [CourseController::class, 'store'])->name('store');
                 Route::get('edit/{id}', [CourseController::class, 'edit'])->name('edit');
                 Route::post('edit/{id}', [CourseController::class, 'update'])->name('update');
-                Route::get('lessons/{slug}', [CourseController::class, 'show'])->name('show');
                 Route::get('{id}', [CourseController::class, 'destroy'])->name('destroy');
+                Route::name('lesson.')->prefix('lesson')->group(function () {
+                    Route::get('{slug}', [CourseController::class, 'show'])->name('show');
+                    Route::get('{slug}/add-lesson', [CourseController::class, 'addLesson'])->name('addlesson');
+                    Route::post('store', [LessonController::class, 'store'])->name('store');
+                });
             });
 
             Route::name('lesson.')->prefix('lesson')->group(function () {
-                Route::get('/{course_id}', [CourseController::class, 'index'])->name('index');
             });
 
         });

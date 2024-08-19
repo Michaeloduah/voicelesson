@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lesson;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class LessonController extends Controller
 {
@@ -30,6 +32,30 @@ class LessonController extends Controller
     public function store(Request $request)
     {
         //
+        $lesson = $request->validate([
+            'course_id' => 'required',
+            'title' => 'required',
+            'content' => 'required',
+            'audio' => 'required',
+            'video' => 'required',
+        ]);
+
+        DB::beginTransaction();
+        $audio_dir = $request->file('audio')->store('audio', 'public');
+        $slug = Str::slug($lesson['title'], '-');
+
+        $lesson = Lesson::create([
+            'course_id' => $request->input('course_id'),
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+            'slug' => $slug,
+            'audio' => $audio_dir,
+            'video' => $request->input('video'),
+        ]);
+
+        DB::commit();
+        return redirect()->back();
+        DB::rollBack();
     }
 
     /**
