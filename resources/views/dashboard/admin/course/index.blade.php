@@ -25,7 +25,7 @@
                         <td> {{ $course->name }} </td>
                         <td> {{ $course->description }} </td>
                         <td>
-                            <a href="{{ route('dashboard.admin.course.show', $course->id) }}"><button
+                            <a href="{{ route('dashboard.admin.course.show', $course->slug) }}"><button
                                     class="btn btn-sm btn-outline-success m-1"><i
                                         class="bi bi-pencil-square"></i>Lessons</button></a>
                             <a href="{{ route('dashboard.admin.course.edit', $course->id) }}"><button

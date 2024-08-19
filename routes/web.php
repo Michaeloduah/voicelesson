@@ -28,8 +28,12 @@ Route::middleware('auth')->group(function () {
                 Route::post('store', [CourseController::class, 'store'])->name('store');
                 Route::get('edit/{id}', [CourseController::class, 'edit'])->name('edit');
                 Route::post('edit/{id}', [CourseController::class, 'update'])->name('update');
-                Route::get('details/{id}', [CourseController::class, 'show'])->name('show');
+                Route::get('lessons/{slug}', [CourseController::class, 'show'])->name('show');
                 Route::get('{id}', [CourseController::class, 'destroy'])->name('destroy');
+            });
+
+            Route::name('lesson.')->prefix('lesson')->group(function () {
+                Route::get('/{course_id}', [CourseController::class, 'index'])->name('index');
             });
 
         });

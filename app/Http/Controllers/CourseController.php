@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -43,9 +44,12 @@ class CourseController extends Controller
 
         DB::beginTransaction();
 
+        $slug = Str::slug($course['name'], '-');
+
         $course = Course::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
+            'slug' => $slug,
         ]);
 
         DB::commit();
@@ -56,11 +60,11 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Course $course, $id)
+    public function show(Course $course, $slug)
     {
         //
         $user = auth()->user();
-        $course = Course::findOrFail($id);
+        $course = Course::where('slug', $slug)->firstOrFail();
         return view('dashboard.admin.course.show', compact('user', 'course'));
     }
 
@@ -85,15 +89,12 @@ class CourseController extends Controller
         $valid = $request->validate([
             'name' => 'nullable',
             'description' => 'nullable',
-            // 'audio' => 'nullable|mimes:mp3,mp4,ogg,wav,aac,flac',
-            // 'content' => 'nullable',
         ]);
 
         $course->name = $request->name ?? $course->name;
         $course->description = $request->description ?? $course->description;
-        // $course->audio = $request->audio ?? $course->audio;
-        // $course->content = $request->content ?? $course->content;
-
+        $slug = Str::slug($request->name ?? $course->name, '-');
+        $course->slug = $slug; 
         $course->save();
 
         return redirect()->intended(route('dashboard.admin.course.index'))->withInput($request->input())->with('message', 'Sermon Updated');
