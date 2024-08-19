@@ -15,9 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->string('audio')->nullable();
-            $table->string('video')->nullable();
-            $table->string('content')->nullable();
             $table->timestamps();
         });
     }
