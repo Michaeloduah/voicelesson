@@ -47,8 +47,12 @@
                                 </div>
 
                                 <div class="d-flex justify-content-end">
-                                    <button class="btn btn-sm btn-outline-info m-2">Edit Lesson</button>
-                                    <button class="btn btn-sm btn-outline-info m-2">Delete Lesson</button>
+                                    <a href="{{ route('dashboard.admin.course.lesson.editlesson', $lesson->slug) }}"><button
+                                            class="btn btn-sm btn-outline-info m-1"><i class="bi bi-pencil-square"></i>Edit
+                                            Lesson</button></a>
+                                    <a href="{{ route('dashboard.admin.course.deletelesson', $lesson->id) }}"><button
+                                            class="btn btn-sm btn-outline-danger m-1"><i
+                                                class="bi bi-trash"></i>Delete</button></a>
                                 </div>
                             </div>
                         </div>

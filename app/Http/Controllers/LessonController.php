@@ -36,7 +36,7 @@ class LessonController extends Controller
             'course_id' => 'required',
             'title' => 'required',
             'content' => 'required',
-            'audio' => 'required',
+            'audio' => 'required|mimes:mp3,mp4,mkv',
             'video' => 'required',
         ]);
 
@@ -77,16 +77,46 @@ class LessonController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Lesson $lesson)
+    public function update(Request $request, $id)
     {
         //
+        $user = auth()->user();
+        $lesson = Lesson::findOrFail($id);
+
+        $valid = $request->validate([
+            'course_id' => 'nullable',
+            'title' => 'nullable',
+            'content' => 'nullable',
+            'audio' => 'nullable',
+            'video' => 'nullable',
+        ]);
+
+        $lesson->title = $request->title ?? $lesson->title;
+        $lesson->content = $request->content ?? $lesson->content;
+        $lesson->video = $request->video ?? $lesson->video;
+        if ($request->hasFile('audio')) {
+            $audio_dir = $request->file('audio')->store('audio', 'public');
+        } else {
+            $audio_dir = $lesson->audio;
+        }
+        $slug = Str::slug($request->title ?? $lesson->title, '-');
+        $lesson->audio = $audio_dir;
+        $lesson->slug = $slug;
+        // dd($lesson);
+        $lesson->save();
+
+        return redirect()->intended(route('dashboard.admin.course.lesson.show', $lesson->course->slug))->withInput($request->input())->with('message', 'Sermon Updated');
+    
     }
 
-    /**
+    /** 
      * Remove the specified resource from storage.
      */
-    public function destroy(Lesson $lesson)
+    public function destroy(Lesson $lesson, $id)
     {
         //
+        $lesson = Lesson::findOrFail($id);
+        $lesson->delete();
+        return redirect()->back()->with('message', 'Course deleted Successfully');
     }
 }

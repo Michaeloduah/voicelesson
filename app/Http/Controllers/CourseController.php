@@ -96,7 +96,7 @@ class CourseController extends Controller
         $course->name = $request->name ?? $course->name;
         $course->description = $request->description ?? $course->description;
         $slug = Str::slug($request->name ?? $course->name, '-');
-        $course->slug = $slug; 
+        $course->slug = $slug;
         $course->save();
 
         return redirect()->intended(route('dashboard.admin.course.index'))->withInput($request->input())->with('message', 'Sermon Updated');
@@ -120,5 +120,12 @@ class CourseController extends Controller
         $user = auth()->user();
         $course = Course::where('slug', $slug)->firstOrFail();
         return view('dashboard.admin.lesson.create', compact('user', 'course'));
+    }
+
+    public function editLesson(Lesson $lesson, $slug) 
+    {
+        $user = auth()->user();
+        $lesson = Lesson::where('slug', $slug)->firstOrFail();
+        return view('dashboard.admin.lesson.edit', compact('user', 'lesson'));
     }
 }
